@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XML Cleaner</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class="glow-orb"></div>
+
+<div class="container">
+
+  <header>
+    <div class="logo-badge">⚡ XML CLEANER v1.0</div>
+    <h1>Remove <span class="hl">rows</span><br>from <span class="hl2">XML</span> files</h1>
+    <p class="subtitle">Upload one or more .xml or .zip files · Search keyword · Download clean file</p>
+  </header>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-label">
+        <strong>Upload Files</strong>
+        .xml or .zip (multiple allowed)
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-label">
+        <strong>Set Keyword</strong>
+        Lines containing it will be removed
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-label">
+        <strong>Download</strong>
+        Clean file without matched lines
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Card -->
+  <div class="card">
+    <div class="card-title">Upload Files</div>
+
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".xml,.zip" multiple>
+      <span class="drop-icon">📂</span>
+      <div class="drop-title">Drop your files here</div>
+      <div class="drop-sub">or click to browse · multiple files supported</div>
+      <div class="file-types">
+        <span class="file-type-badge">.XML</span>
+        <span class="file-type-badge">.ZIP</span>
+        <span class="file-type-badge">MULTIPLE</span>
+      </div>
+    </div>
+
+    <!-- Multi-file list -->
+    <div id="fileList"></div>
+  </div>
+
+  <!-- Keyword Card -->
+  <div class="card">
+    <div class="card-title">Search Keyword</div>
+    <div class="input-row">
+      <div class="field">
+        <label for="keyword">Keyword to remove (case-insensitive)</label>
+        <input type="text" id="keyword" value="odoo" placeholder="e.g. odoo">
+      </div>
+      <button class="btn btn-outline" id="previewBtn" disabled>🔍 Preview</button>
+    </div>
+
+    <div class="loader" id="previewLoader">
+      <div class="spinner"></div>
+      Analyzing files…
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-danger" id="processBtn" disabled>🗑️ Delete rows & Download</button>
+    </div>
+
+    <div class="loader" id="processLoader">
+      <div class="spinner"></div>
+      Processing and downloading…
+    </div>
+  </div>
+
+  <!-- Preview Panel -->
+  <div class="preview-panel" id="previewPanel">
+    <div class="preview-header">
+      <div class="preview-title">Analysis Result</div>
+      <span id="previewMeta" style="font-size:12px;color:var(--muted)"></span>
+    </div>
+    <div id="previewContent"></div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+</html>
