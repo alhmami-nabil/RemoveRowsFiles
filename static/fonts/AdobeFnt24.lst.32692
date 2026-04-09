@@ -1,0 +1,53 @@
+%!Adobe-FontList 1.24
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:TECNIBO-DISPLAY
+FamilyName:TECNIBO
+StyleName:DISPLAY
+FullName:TECNIBO DISPLAY
+MenuName:TECNIBO DISPLAY
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:M:\General\Process and Tools\Share\Design Office\2.0. FT_CLOISONS\1.1. FICHES TECHNIQUES\2025 Update Fiches Techniques\Template Stoemp\Document fonts\TECNIBO-DISPLAY.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:16908
+FileModTime:1757406710
+WeightClass:400
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,TECNIBO DISPLAY
+NameArray:0,Win,1,TECNIBO DISPLAY
+NameArray:0,Win,16,TECNIBO
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:UniversalSans-500
+FamilyName:UniversalSans-500
+StyleName:Regular
+FullName:UniversalSans-500
+MenuName:UniversalSans-500
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:M:\General\Process and Tools\Share\Design Office\2.0. FT_CLOISONS\1.1. FICHES TECHNIQUES\2025 Update Fiches Techniques\Template Stoemp\Document fonts\UniversalSans-500.ttf
+DataFormat:sfntData
+hasSVG:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:80396
+FileModTime:1757405202
+WeightClass:504
+WidthClass:5
+AngleClass:0
+NameArray:0,Win,1,UniversalSans-500
+%EndFont
+

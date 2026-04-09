@@ -1,0 +1,95 @@
+%!Adobe-FontList 1.24
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:/Users/florawierzbicki/Stoëmp Studio Dropbox/Stoemp Studio/0 — CLIENT/T/TECNIBO/09 — SUPPORTS DE COMMUNICATION/05 — TEMPLATES/02 — FICHE TECHNIQUE/TEC-FICHE-TECHNIQUE-TEMPLATE-v1 Folder/Document fonts/.DS_Store
+FileLength:6148
+FileModTime:779106706
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:/Users/florawierzbicki/Stoëmp Studio Dropbox/Stoemp Studio/0 — CLIENT/T/TECNIBO/09 — SUPPORTS DE COMMUNICATION/05 — TEMPLATES/02 — FICHE TECHNIQUE/TEC-FICHE-TECHNIQUE-TEMPLATE-v1 Folder/Document fonts/AdobeFnt24.lst
+FileLength:3062
+FileModTime:764770873
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:TECNIBO-DISPLAY
+FamilyName:TECNIBO
+StyleName:DISPLAY
+MenuName:TECNIBO DISPLAY
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:TECNIBO DISPLAY
+WritingScript:Roman
+OutlineFileName:/Users/florawierzbicki/Stoëmp Studio Dropbox/Stoemp Studio/0 — CLIENT/T/TECNIBO/09 — SUPPORTS DE COMMUNICATION/05 — TEMPLATES/02 — FICHE TECHNIQUE/TEC-FICHE-TECHNIQUE-TEMPLATE-v1 Folder/Document fonts/TECNIBO-DISPLAY.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:16908
+FileModTime:773230673
+NameArray:0,Mac,4,TECNIBO DISPLAY
+NameArray:0,Win,1,TECNIBO DISPLAY
+NameArray:0,Win,16,TECNIBO
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:UniversalSans-450
+FamilyName:UniversalSans-450
+StyleName:Regular
+MenuName:UniversalSans-450
+StyleBits:0
+WeightClass:450
+WidthClass:5
+AngleClass:0
+FullName:UniversalSans-450
+WritingScript:Roman
+OutlineFileName:/Users/florawierzbicki/Stoëmp Studio Dropbox/Stoemp Studio/0 — CLIENT/T/TECNIBO/09 — SUPPORTS DE COMMUNICATION/05 — TEMPLATES/02 — FICHE TECHNIQUE/TEC-FICHE-TECHNIQUE-TEMPLATE-v1 Folder/Document fonts/UniversalSans-450.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:15300
+FileModTime:704309599
+NameArray:0,Win,1,UniversalSans-450
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:UniversalSans-500
+FamilyName:UniversalSans-500
+StyleName:Regular
+MenuName:UniversalSans-500
+StyleBits:0
+WeightClass:504
+WidthClass:5
+AngleClass:0
+FullName:UniversalSans-500
+WritingScript:Roman
+OutlineFileName:/Users/florawierzbicki/Stoëmp Studio Dropbox/Stoemp Studio/0 — CLIENT/T/TECNIBO/09 — SUPPORTS DE COMMUNICATION/05 — TEMPLATES/02 — FICHE TECHNIQUE/TEC-FICHE-TECHNIQUE-TEMPLATE-v1 Folder/Document fonts/UniversalSans-500.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:80396
+FileModTime:704309600
+NameArray:0,Win,1,UniversalSans-500
+%EndFont
+
