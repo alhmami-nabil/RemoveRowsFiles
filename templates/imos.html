@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMOS Import Out</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<style>
+  /* Compléments spécifiques à la page IMOS (mêmes variables que styles.css) */
+  select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%236b6b80' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+  }
+  select:focus { border-color: var(--accent); }
+
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .report-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+  }
+  .report-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .report-table tr:last-child td { border-bottom: none; }
+
+  .status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .st-DEPLACE, .st-FUSIONNE {
+    background: rgba(184,255,87,0.1);
+    border: 1px solid rgba(184,255,87,0.3);
+    color: var(--success);
+  }
+  .st-CONFLIT, .st-ERREUR {
+    background: rgba(255,77,109,0.1);
+    border: 1px solid rgba(255,77,109,0.3);
+    color: var(--danger);
+  }
+  .st-INTROUVABLE {
+    background: rgba(255,200,60,0.08);
+    border: 1px solid rgba(255,200,60,0.3);
+    color: #ffc83c;
+  }
+  .st-RIEN_A_FAIRE {
+    background: rgba(107,107,128,0.1);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .detail-cell { color: var(--muted); word-break: break-word; }
+  .mode-note {
+    padding: 12px 24px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="glow-orb"></div>
+
+<div class="container">
+
+  <a href="/" class="back-link">&larr; XML CLEANER</a>
+
+  <header>
+    <div class="logo-badge">Tecnibo</div>
+    <h1>Sortir de l'<span class="hl2">Import</span><br>vers la <span class="hl">racine</span></h1>
+    <p class="subtitle">Upload du zip de transfert IMOS · Choix de la base · Aperçu puis exécution</p>
+  </header>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-label">
+        <strong>Base de données</strong>
+        Choisir la base IMOS cible
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-label">
+        <strong>Fichier de transfert</strong>
+        Le zip importé dans IMOS
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-label">
+        <strong>Aperçu &amp; Exécution</strong>
+        Vérifier le rapport avant d'appliquer
+      </div>
+    </div>
+  </div>
+
+  <!-- Base de données -->
+  <div class="card">
+    <div class="card-title">Base de données</div>
+    <div class="field">
+      <label for="db">Base IMOS cible</label>
+      <select id="db"><option value="">Chargement…</option></select>
+    </div>
+  </div>
+
+  <!-- Upload -->
+  <div class="card">
+    <div class="card-title">Fichier de transfert</div>
+
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".zip">
+      <span class="drop-icon">📦</span>
+      <div class="drop-title">Déposer le zip de transfert ici</div>
+      <div class="drop-sub">ou cliquer pour parcourir</div>
+      <div class="file-types">
+        <span class="file-type-badge">.ZIP</span>
+        <span class="file-type-badge">IMOSTRANSFER.XML</span>
+      </div>
+    </div>
+
+    <div id="fileList"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline" id="btnPreview" disabled>🔍 Aperçu</button>
+      <button class="btn btn-danger" id="btnApply" disabled>⚡ Exécuter</button>
+    </div>
+
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      Traitement en cours…
+    </div>
+  </div>
+
+  <!-- Rapport -->
+  <div class="preview-panel" id="reportPanel">
+    <div class="preview-header">
+      <div class="preview-title">Rapport</div>
+      <span id="reportMeta" style="font-size:12px;color:var(--muted)"></span>
+    </div>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div style="overflow-x:auto;">
+      <table class="report-table" id="reportTable"></table>
+    </div>
+    <div class="mode-note" id="modeNote"></div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const selDb    = document.getElementById('db');
+const fileInput = document.getElementById('fileInput');
+const dropZone  = document.getElementById('dropZone');
+const fileList  = document.getElementById('fileList');
+const btnPreview = document.getElementById('btnPreview');
+const btnApply   = document.getElementById('btnApply');
+const loader     = document.getElementById('loader');
+const panel      = document.getElementById('reportPanel');
+const statsGrid  = document.getElementById('statsGrid');
+const reportTable = document.getElementById('reportTable');
+const reportMeta  = document.getElementById('reportMeta');
+const modeNote    = document.getElementById('modeNote');
+const toast       = document.getElementById('toast');
+
+let currentFile = null;
+
+// ---- Toast ----
+let toastTimer;
+function showToast(msg, type) {
+  toast.textContent = msg;
+  toast.className = 'toast show ' + (type || '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.className = 'toast', 4000);
+}
+
+// ---- Charger les bases ----
+fetch('/imos/bases').then(r => r.json()).then(d => {
+  if (d.error) throw new Error(d.error);
+  selDb.innerHTML = '<option value="">— choisir une base —</option>';
+  (d.bases || []).forEach(b => {
+    const o = document.createElement('option');
+    o.value = b; o.textContent = b;
+    selDb.appendChild(o);
+  });
+}).catch(e => {
+  selDb.innerHTML = '<option value="">(erreur de chargement)</option>';
+  showToast('Bases : ' + e.message, 'error');
+});
+
+// ---- Drop zone ----
+['dragover','dragenter'].forEach(ev => dropZone.addEventListener(ev, e => {
+  e.preventDefault(); dropZone.classList.add('dragover');
+}));
+['dragleave','drop'].forEach(ev => dropZone.addEventListener(ev, e => {
+  e.preventDefault(); dropZone.classList.remove('dragover');
+}));
+dropZone.addEventListener('drop', e => {
+  if (e.dataTransfer.files.length) setFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length) setFile(fileInput.files[0]);
+});
+
+function setFile(f) {
+  if (!f.name.toLowerCase().endsWith('.zip')) {
+    showToast('Seuls les fichiers .zip sont acceptés', 'error');
+    return;
+  }
+  currentFile = f;
+  fileList.innerHTML =
+    '<div class="file-item">' +
+      '<span class="file-item-icon">📦</span>' +
+      '<div class="file-item-info">' +
+        '<div class="file-item-name">' + f.name + '</div>' +
+        '<div class="file-item-size">' + (f.size/1024).toFixed(1) + ' Ko</div>' +
+      '</div>' +
+      '<button class="file-remove" onclick="clearFile()">&times;</button>' +
+    '</div>';
+  updateButtons();
+}
+
+function clearFile() {
+  currentFile = null;
+  fileInput.value = '';
+  fileList.innerHTML = '';
+  updateButtons();
+}
+
+function updateButtons() {
+  const ok = currentFile && selDb.value;
+  btnPreview.disabled = !ok;
+  btnApply.disabled = !ok;
+}
+selDb.addEventListener('change', updateButtons);
+
+// ---- Envoi ----
+async function envoyer(apply) {
+  if (apply && !confirm('Exécuter réellement sur la base ' + selDb.value + ' ?')) return;
+
+  const fd = new FormData();
+  fd.append('file', currentFile);
+  fd.append('db', selDb.value);
+  fd.append('apply', apply);
+
+  loader.classList.add('show');
+  panel.classList.remove('show');
+  btnPreview.disabled = btnApply.disabled = true;
+
+  try {
+    const r = await fetch('/imos/transfert', { method: 'POST', body: fd });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || ('Erreur ' + r.status), 'error'); return; }
+
+    // stats
+    statsGrid.innerHTML = '';
+    const colors = { DEPLACE:'green', FUSIONNE:'green', CONFLIT:'red',
+                     ERREUR:'red', INTROUVABLE:'', 'RIEN A FAIRE':'' };
+    for (const [k, v] of Object.entries(d.resume)) {
+      statsGrid.innerHTML +=
+        '<div class="stat-box"><div class="stat-label">' + k + '</div>' +
+        '<div class="stat-value ' + (colors[k] || 'blue') + '">' + v + '</div></div>';
+    }
+
+    // table
+    let html = '<tr><th>Table</th><th>Élément</th><th>Statut</th><th>Détail</th></tr>';
+    d.rapport.forEach(x => {
+      const cls = 'st-' + x.status.replace(/ /g, '_');
+      html += '<tr><td>' + x.table + '</td><td>' + x.element + '</td>' +
+              '<td><span class="status-badge ' + cls + '">' + x.status + '</span></td>' +
+              '<td class="detail-cell">' + x.detail + '</td></tr>';
+    });
+    reportTable.innerHTML = html;
+
+    reportMeta.textContent = d.mode + ' · ' + d.base + ' · ' + d.elements_lus + ' élément(s)';
+    modeNote.textContent = d.note;
+    panel.classList.add('show');
+    showToast(d.mode + ' terminé', 'success');
+  } catch (e) {
+    showToast('Erreur réseau : ' + e, 'error');
+  } finally {
+    loader.classList.remove('show');
+    updateButtons();
+  }
+}
+
+btnPreview.onclick = () => envoyer(false);
+btnApply.onclick   = () => envoyer(true);
+</script>
+
+</body>
+</html>

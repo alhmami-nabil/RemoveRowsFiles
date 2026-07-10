@@ -4,9 +4,10 @@ import os
 import io
 import tempfile
 import shutil
-
+from imos_import import imos_bp
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 500MB max for multiple files
+app.register_blueprint(imos_bp)
 
 UPLOAD_FOLDER = tempfile.mkdtemp()
 
